@@ -66,13 +66,9 @@ FloodVAE uses `log1p` followed by min-max scaling. Estimate statistics from the 
 {"log1p_min": 0.0, "log1p_scale": 2.0}
 ```
 
-The numeric values above are illustrative. `log1p_scale` is **log-space maximum minus minimum**, not the physical maximum. `fit_norm_stats` computes these quantities from a supplied manifest. Use the same snapshot sampling as VAE training when fitting them. Scaling is fitted before the internal sample split in the manuscript implementation. Reuse the saved statistics for encoding and testing rather than estimating test-specific statistics.
+The values above are illustrative. `log1p_scale` is the maximum minus the minimum after log1p transformation. Use `fit_norm_stats` to estimate these statistics from the candidate snapshots used for VAE training, and reuse them for encoding and testing. Normalized inputs are clipped to [0, 1]. Restore physical units with `inverse_normalize` before evaluating reconstruction errors.
 
-The supplied normalization function clips transformed inputs to `[0,1]`, matching the supplied original encoder. Retain the same convention in training. Values outside the training range may therefore saturate. For physical-unit evaluation use `inverse_normalize`, apply the domain mask, compute per-frame metrics, and then aggregate using the stated event-level convention.
-
-Train a separate VAE for each hydraulic variable and scale. Use `FloodVAE`, `beta_vae_loss`, and the training pattern shown below with your own dataset loader. Production training should stream large datasets rather than loading the entire pool into RAM. Save either `model.state_dict()` or a dictionary containing `model_state_dict`. The encoder loads state-dictionary checkpoints with strict architectural matching. Supply the same `base_ch`, `z_dim`, input shape, normalization, and mask used in training.
-
-The core architecture and state-dictionary layer names are retained from the supplied network. Historical checkpoints are usable only when those settings match. This release does not distribute historical weights.
+Train a separate FloodVAE for each study area, hydraulic variable, and coarse-grid scale using the provided network and loss function. Adapt the data loader and training settings to your application. Save the trained weights as `model.state_dict()` or under the key `model_state_dict`, and use matching network settings, normalization statistics, and domain masks when encoding events.
 
 ## Method and configurable defaults
 
