@@ -6,11 +6,11 @@ This release provides the FloodVAE architecture and loss, candidate-event encodi
 
 ## Data availability and scope
 
-Hydrodynamic inputs can be large, and the SZR study-area data are confidential and are not included or authorized for public redistribution. This repository contains no SZR terrain, forcing records, hydraulic fields, fine-grid labels, or trained study-area checkpoints. The synthetic example does not contain or approximate confidential data.
+This repository provides the core VAE-SA modules and a runnable synthetic example. Study-area datasets are not distributed with the code.
 
-Users must prepare suitable hydrodynamic simulations, valid-domain masks, event attributes, and normalization statistics for their own applications. Local terrain, boundary conditions, drainage assumptions, event magnitudes, durations, temporal patterns, and coarse-grid resolutions must be chosen and assessed for that application. Candidate-pool coverage should reflect the intended prediction conditions, including relevant extremes.
+For new applications, users should prepare coarse-grid hydrodynamic simulations, domain masks, event attributes, and normalization statistics for their own study areas. Candidate events should cover the intended prediction conditions, including relevant extremes.
 
-These are core method modules with a synthetic execution example, not a complete reproduction package for every experiment in the manuscript. The release does not include a hydrodynamic solver, the original large datasets, cluster job scripts, or the downstream benchmark evaluation pipeline. Running the synthetic example checks the interfaces, not the scientific performance reported in the paper.
+The synthetic example demonstrates the workflow. Reproducing the manuscript experiments requires the corresponding datasets and experimental settings.
 
 ## Files and dependencies
 
