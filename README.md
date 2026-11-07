@@ -82,7 +82,7 @@ J(S) = mean_i min_{j in S} cosine_distance(f_i, f_j)
        + pattern_weight   * sum_g (n_g(S)/k - 1/G_pattern)^2
 ```
 
-The two balance terms are soft attribute constraints, not hydraulic conservation equations. Equal event counts across duration categories and inclusion of at least one extreme event are hard constraints. The subset size must be divisible by the number of duration categories. Every category must have enough candidates to satisfy its quota. Simulated annealing preserves these constraints through within-duration exchanges and retains the best subset encountered across starts. It is a heuristic search and does not certify a global optimum.
+The balance terms encourage representation across magnitude and temporal-pattern categories. Duration allocation should consider the event durations and the resulting training-data volumes in each application. In this study, events were selected equally across duration categories to maintain comparable training-data volumes across selection strategies. Simulated annealing searches for event combinations with lower objective values and retains the best subset found across multiple starts.
 
 | Setting | Manuscript setting / release default |
 | --- | --- |
@@ -92,7 +92,7 @@ The two balance terms are soft attribute constraints, not hydraulic conservation
 | VAE maximum KL weight | `5e-4` loss default; increase gradually over the first 100 training epochs |
 | Reference VAE training | AdamW, learning rate `1e-3`, weight decay `1e-4`, batch size 128, maximum 500 epochs, internal split 9:1 |
 | Magnitude / pattern weights | 0.5 / 0.3 |
-| Duration quota | Equal counts across manifest duration categories |
+| Allocation across duration categories | Equal numbers of selected events per duration category |
 | Extreme inclusion | At least one event marked `is_extreme=1` |
 | SA temperature | 1.0 to `1e-6`, geometric cooling |
 | SA steps / starts | 10,000 / 20 |
